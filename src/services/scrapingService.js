@@ -8,8 +8,8 @@ async function scrapeCifra(url) {
 
     // Extrair o título e a cifra
     const title = $('h1.t1').text().trim();
-    const artist = $('h2.t2').text().trim();
-    const cifra = $('.cifra_cnt.g-fix.cifra-mono').text().trim();
+    const artist = $('h2.t3').text().trim();
+    const cifra = $('.cifra_cnt.g-fix.cifra-mono pre').text().trim();
 
     return { title, cifra, artist };
   } catch (error) {

@@ -7,8 +7,10 @@ const pdfQueue = new Queue('pdf-generation', {
 
 // Processar a fila
 pdfQueue.process(async (job) => {
-  const { pdfData } = job.data;
-  return await generatePDF(pdfData);
+  const { pdfDataArray, name } = job.data;
+
+  // Gerar PDF com todas as cifras
+  return await generatePDF(pdfDataArray, name);
 });
 
 module.exports = pdfQueue;

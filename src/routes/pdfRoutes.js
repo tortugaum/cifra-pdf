@@ -6,29 +6,48 @@ const pdfQueue = require('../queues/pdfQueue');
 const router = express.Router();
 
 router.post('/generate', async (req, res) => {
-  const { url } = req.body;
+  const { urls, name = null } = req.body; // Accepts an array of URLs
 
-  if (!url || !isURL(url, { require_protocol: true })) {
-    return res.status(400).json({ error: 'A URL fornecida é inválida.' });
-  }
-
-  if (!url.includes('cifraclub.com.br')) {
+  if (!urls || !Array.isArray(urls) || urls.length === 0) {
     return res
       .status(400)
-      .json({ error: 'A URL deve ser do site Cifra Club.' });
+      .json({ error: 'É necessário fornecer pelo menos uma URL.' });
+  }
+
+  // Validar se todas as URLs são válidas
+  for (let url of urls) {
+    if (!isURL(url, { require_protocol: true })) {
+      return res
+        .status(400)
+        .json({ error: `A URL fornecida é inválida: ${url}` });
+    }
+
+    if (!url.includes('cifraclub.com.br')) {
+      return res
+        .status(400)
+        .json({ error: `A URL deve ser do site Cifra Club: ${url}` });
+    }
   }
 
   try {
-    const cifraData = await scrapeCifra(url);
+    const cifraDataArray = [];
 
-    if (!cifraData) {
-      return res.status(404).json({ error: 'Cifra não encontrada.' });
+    // Coletar as cifras de todas as URLs
+    for (let url of urls) {
+      const cifraData = await scrapeCifra(url);
+      if (!cifraData) {
+        return res
+          .status(404)
+          .json({ error: `Cifra não encontrada para a URL: ${url}` });
+      }
+      cifraDataArray.push(cifraData);
     }
 
-    const job = await pdfQueue.add({ pdfData: cifraData });
+    // Enviar a tarefa para a fila para geração de PDF
+    const job = await pdfQueue.add({ pdfDataArray: cifraDataArray, name });
 
     res.status(202).json({
-      message: 'Música adicionada à fila para processamento.',
+      message: 'Músicas adicionadas à fila para processamento.',
       jobId: job.id,
     });
   } catch (error) {
