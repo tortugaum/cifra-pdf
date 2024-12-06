@@ -1,6 +1,6 @@
 const { isURL } = require('validator');
 const express = require('express');
-const { scrapeCifra } = require('../services/scrapingService');
+const { scrapeCifra } = require('../services/pupeteerScrapingService');
 const pdfQueue = require('../queues/pdfQueue');
 
 const router = express.Router();
