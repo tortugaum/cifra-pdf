@@ -16,6 +16,10 @@ app.use(express.json());
 initializeWhatsAppClient();
 
 // Rotas da API
+app.use('/', (req, res) => {
+  res.send('API is running');
+});
+
 app.use('/api/pdf', pdfRoutes);
 
 // Configuração do Bull Board (Monitor de Filas)
