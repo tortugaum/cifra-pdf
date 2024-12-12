@@ -30,7 +30,10 @@ function initializeWhatsAppClient() {
 
   whatsappClient.on('message_create', async (message) => {
     try {
-      if (message.body && message.from.includes('99632')) {
+      if (
+        message.body &&
+        (message.author?.includes('99632') || message.from.includes('99632'))
+      ) {
         if (!chatStarted || message.body.toLowerCase().startsWith('/start')) {
           chatStarted = true;
 
