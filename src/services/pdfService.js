@@ -7,7 +7,7 @@ async function generatePDF(pdfDataArray, name) {
     .toString(36)
     .substring(2, 8)}`;
 
-  const fileName = `${name || randomName}.pdf`;
+  const fileName = `./src/files/${name || randomName}.pdf`;
   const writeStream = fs.createWriteStream(`./${fileName}`);
 
   doc.pipe(writeStream);

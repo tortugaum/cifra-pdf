@@ -128,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+#whatsapp
+.wwebjs_auth
+.wwebjs_cache
+src/files/*
+!src/files

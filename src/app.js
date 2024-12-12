@@ -4,12 +4,16 @@ const { createBullBoard } = require('@bull-board/api');
 const { BullAdapter } = require('@bull-board/api/bullAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
 const pdfQueue = require('./queues/pdfQueue');
+const { initializeWhatsAppClient } = require('./services/whatsappService');
 
 const app = express();
 const port = 3000;
 
 // Middleware para tratar JSON
 app.use(express.json());
+
+// Inicializar o WhatsApp Client
+initializeWhatsAppClient();
 
 // Rotas da API
 app.use('/api/pdf', pdfRoutes);

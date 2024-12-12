@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-async function scrapeCifra(url, tune) {
+async function scrapeCifra(url, tune = 0) {
   try {
     // Launch Puppeteer
     const browser = await puppeteer.launch();
