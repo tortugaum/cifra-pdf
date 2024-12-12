@@ -133,4 +133,4 @@ dist
 .wwebjs_auth
 .wwebjs_cache
 src/files/*
-!src/files
+!src/files/.gitkeep
