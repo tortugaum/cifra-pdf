@@ -17,7 +17,6 @@ router.post('/generate', async (req, res) => {
       .json({ error: 'É necessário fornecer pelo menos uma URL.' });
   }
 
-  // Validar se todas as URLs são válidas
   for (let url of urls) {
     if (!isURL(url, { require_protocol: true })) {
       return res
@@ -35,7 +34,6 @@ router.post('/generate', async (req, res) => {
   try {
     const cifraDataArray = [];
 
-    // Coletar as cifras de todas as URLs
     for (let url of urls) {
       const cifraData = await scrapeCifra(url, tune);
       if (!cifraData) {
@@ -46,7 +44,6 @@ router.post('/generate', async (req, res) => {
       cifraDataArray.push(cifraData);
     }
 
-    // Enviar a tarefa para a fila para geração de PDF
     const job = await pdfQueue.add({ pdfDataArray: cifraDataArray, name });
 
     res.status(202).json({
