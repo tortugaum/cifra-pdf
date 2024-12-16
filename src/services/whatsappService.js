@@ -1,5 +1,5 @@
 const qrcode = require('qrcode-terminal');
-const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
+const { Client, LocalAuth, MessageMedia, NoAuth } = require('whatsapp-web.js');
 const Queue = require('bull');
 const { scrapeCifra, scrapeSearchCifra } = require('./pupeteerScrapingService');
 const { generatePDF } = require('./pdfService');
@@ -20,7 +20,8 @@ function initializeWhatsAppClient() {
     puppeteer: {
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     },
-    authStrategy: new LocalAuth(),
+    authStrategy:
+      process.env.ENVIRONMENT === 'production' ? new NoAuth() : new LocalAuth(),
   });
 
   whatsappClient.on('qr', (qr) => {
