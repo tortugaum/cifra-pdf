@@ -110,13 +110,13 @@ async function processQueueAndGeneratePDF(message) {
       const { url } = job.data;
       try {
         const isUrl =
-          /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\\w .-]*)*\/?$/.test(
+          /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/[\w.-]*)*\/?$/.test(
             url
           );
 
         const scrapedData = isUrl
           ? await scrapeCifra(url)
-          : await scrapeSearchCifra(url.split('-')[0], url.split('-')[1]);
+          : await scrapeSearchCifra(url);
 
         if (scrapedData) {
           pdfData.push(scrapedData);
