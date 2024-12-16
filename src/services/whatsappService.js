@@ -17,6 +17,9 @@ let whatsappClient;
 
 function initializeWhatsAppClient() {
   whatsappClient = new Client({
+    puppeteer: {
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    },
     authStrategy: new LocalAuth(),
   });
 
