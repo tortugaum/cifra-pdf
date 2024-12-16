@@ -1,5 +1,6 @@
 const express = require('express');
 const pdfRoutes = require('./routes/pdfRoutes');
+const generalRoutes = require('./routes/general');
 const { createBullBoard } = require('@bull-board/api');
 const { BullAdapter } = require('@bull-board/api/bullAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
@@ -16,9 +17,7 @@ app.use(express.json());
 initializeWhatsAppClient();
 
 // Rotas da API
-app.use('/', (req, res) => {
-  res.send('API is running');
-});
+app.use(generalRoutes);
 
 app.use('/api/pdf', pdfRoutes);
 
